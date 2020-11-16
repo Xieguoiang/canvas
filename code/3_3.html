@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+	<title></title>
+</head>
+<body>
+
+
+<canvas id="canvas" width="1000" height="1000"></canvas>
+
+<!-- 11 -->
+
+
+
+<!-- 注意: 为了方便直观, 我们在HTML中内嵌了script元素, 但并不推荐这种做法。 -->
+
+<script>
+	
+// 第一步获取canvas2d渲染上下文
+
+// canvas元素创造了一个固定大小的画布，它公开了一个或多个渲染上下文，其可以用来绘制和处理要展示的内容。我们将会将注意力放在2D渲染上下文中
+var canvas = document.getElementById("canvas");
+if (canvas.getContext){   //检测是否支持绘制.简单的编程检测方式判断方法是否存在
+    var ctx = canvas.getContext('2d');
+}
+/*
+	@events 绘制圆形
+	
+*/
+
+function draw_circal(){
+	ctx.beginPath();
+	ctx.arc(75, 75, 50, 0, 2 * Math.PI);
+	ctx.stroke();
+	// ctx.fill();
+}
+
+/*
+
+@autor xiaotian
+@绘制长方形
+*/
+function draw_rectangle() {  
+  var canvas = document.getElementById('canvas');
+  if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = "red"
+    ctx.fillRect(25, 25, 100, 100);
+    // ctx.clearRect(45, 45, 60, 60);
+    // ctx.strokeRect(50, 50, 50, 50);
+  }
+}
+
+
+/*
+
+@autor xiaotian
+@绘制三角形
+*/
+function draw_triangle() {
+  var canvas = document.getElementById('canvas');
+  if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+
+    ctx.beginPath();
+    ctx.moveTo(75, 50);
+    ctx.lineTo(100, 75);
+    ctx.lineTo(100, 25);
+    ctx.fill();
+  }
+}
+
+
+function draw() {
+  var canvas = document.getElementById('canvas');
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+
+     //三次贝塞尔曲线
+    ctx.beginPath();
+    ctx.moveTo(75, 40);
+    ctx.bezierCurveTo(75, 37, 70, 25, 50, 25);
+    ctx.bezierCurveTo(20, 25, 20, 62.5, 20, 62.5);
+    ctx.bezierCurveTo(20, 80, 40, 102, 75, 120);
+    ctx.bezierCurveTo(110, 102, 130, 80, 130, 62.5);
+    ctx.bezierCurveTo(130, 62.5, 130, 25, 100, 25);
+    ctx.bezierCurveTo(85, 25, 75, 37, 75, 40);
+    ctx.stroke();
+  }
+}
+// draw()
+/*
+  Math.pow() 返回基数的n次幂
+  Math.sin() 函数返回一个数值的正弦值。
+  Math.cos() 函数返回一个数值的余弦值。
+*/
+function getHeartPoint(angle) {
+	//console.log(angle)
+	var t = angle / Math.PI;
+	var x = 19.5 * (16 * Math.pow(Math.sin(t), 3));
+	var y = - 20 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+	return new Array(400+ x,  400+ y);
+}
+
+function draw_(){
+	var  angle = 10;
+	var arr = [];
+	while(angle <= 30){
+		var  p = getHeartPoint(angle);
+		arr.push(p)
+		angle+=0.2;
+	}
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+	ctx.fillStyle = "red"
+	var i = 0;
+
+	var timer = setInterval(function(){
+		if(i >= arr.length -1){
+			clearTimeout(timer)
+			return
+		}	
+	    i++;
+	    ctx.fillRect(arr[i][0], arr[i][1], 5, 5);
+	},50)
+}
+
+
+
+// draw()
+draw_circal()
+</script>
+</body>
+</html>

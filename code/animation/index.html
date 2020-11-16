@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+
+
+<canvas width="500" height="500" id="canvas"></canvas>
+
+
+
+
+
+<script type="text/javascript">
+
+  //动画
+
+
+
+  var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+
+
+
+
+
+
+
+
+  // draw()
+/*
+  Math.pow() 返回基数的n次幂
+  Math.sin() 函数返回一个数值的正弦值。
+  Math.cos() 函数返回一个数值的余弦值。
+*/
+function getHeartPoint(angle) {
+  //console.log(angle)
+  var t = angle / Math.PI;
+  var x = 19.5 * (16 * Math.pow(Math.sin(t), 3));
+  var y = - 20 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+  return new Array(400+ x,  400+ y);
+}
+
+function draw_d_heart(){
+  var  angle = 10;
+  var arr = [];
+  while(angle <= 30){
+    var  p = getHeartPoint(angle);
+    arr.push(p)
+    angle+=0.2;
+  }
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+  ctx.fillStyle = "red"
+  var i = 0;
+
+  var timer = setInterval(function(){
+    if(i >= arr.length -1){
+      clearTimeout(timer)
+      return
+    } 
+      i++;
+      ctx.fillRect(arr[i][0], arr[i][1], 5, 5);
+  },50)
+}
+
+
+
+//小球运动
+var raf;
+
+var ball = {
+  x: 100,
+  y: 100,
+  vx: 5,
+  vy: 2,
+  radius: 25,
+  color: 'blue',
+  draw: function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+};
+
+function draw() {
+  // ctx.clearRect(0,0, canvas.width, canvas.height);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ball.draw();
+  ball.vy *= .99;
+  ball.vy += .25;
+  ball.x += ball.vx;
+  ball.y += ball.vy;
+  if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
+    ball.vy = -ball.vy;
+  }
+  if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+    ball.vx = -ball.vx;
+  }
+  raf = window.requestAnimationFrame(draw);
+}
+
+canvas.addEventListener('mouseover', function(e){
+  raf = window.requestAnimationFrame(draw);
+});
+
+canvas.addEventListener('mouseout', function(e){
+  window.cancelAnimationFrame(raf);
+});
+
+ball.draw();
+</script>
+</body>
+</html>

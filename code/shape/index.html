@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+	<title></title>
+</head>
+<body>
+
+
+<div>
+		<canvas width="500" height="500" id="canvas" style="border: 1px solid #000"></canvas>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+/*
+* 第一步获取canvas2d渲染上下文
+* canvas元素创造了一个固定大小的画布，它公开了一个或多个渲染上下文，其可以用来绘制和处理要展示的内容。
+* 我们将会将注意力放在2D渲染上下文中
+*/
+
+
+// 实战之前搞懂几个经常用的API
+// getContext 获取上下文
+// fillstyle
+//setLineDash
+//beginPath()
+// closePath()
+//moveTo() 是 Canvas 2D API 将一个新的子路径的起始点移动到(x，y)坐标的方法。
+// CanvasRenderingContext2D.font 是 Canvas 2D API 描述绘制文字时，当前字体样式的属性。 使用和 CSS font 规范相同的字符串值。
+//CanvasRenderingContext2D.lineTo() 是 Canvas 2D API 使用直线连接子路径的终点到x，y坐标的方法（并不会真正地绘制）。
+
+
+
+
+
+
+
+	/*
+		
+	*/
+	var canvas = document.getElementById("canvas");
+	if(canvas.getContext){  //检测是否支持绘制.简单的编程检测方式判断方法是否存在
+	  var ctx = canvas.getContext("2d");
+	}
+
+
+
+	/*
+		绘制矩形
+		fillRect()
+		strokeRect()
+		clearRect()
+
+	*/
+	function draw_rect(x,y,width,height,state){
+		state === 1? 
+			ctx.fillRect(x, y, width, height)
+			 :state === 2?
+			 	ctx.strokeRect(x, y, width, height)
+				:state === 3?
+				   ctx.clearRect(x, y, width, height)
+				   :console.error("请核对参数")
+	
+	}
+
+	// draw_rect(10,10,20,20,1)
+	// draw_rect(30,30,20,20,2)
+	// draw_rect(20,20,20,20,3)
+
+
+
+
+
+	/*
+
+		绘制连线
+		setLineDash
+	*/
+
+	let y = 10;
+	function drawDashedLine(pattern) {
+	  ctx.beginPath();
+	  ctx.setLineDash(pattern);
+	  ctx.moveTo(0, y);
+	  ctx.lineTo(300, y);
+	  ctx.stroke();
+	  y += 20;
+	}
+
+	
+	// drawDashedLine([]);
+	// drawDashedLine([1, 1]);
+	// drawDashedLine([10, 10]);
+	// drawDashedLine([20, 5]);
+	// drawDashedLine([15, 3, 3, 3]);
+	// drawDashedLine([20, 3, 3, 3, 3, 3, 3, 3]);
+	// drawDashedLine([12, 3, 3]);  // Equals [12, 3, 3, 12, 3, 3]
+
+
+/*
+
+@autor xiaotian
+beginPath()
+moveTo()
+lineTo()
+@绘制三角形
+*/
+function draw_triangle() {
+  var canvas = document.getElementById('canvas');
+  if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+
+    ctx.beginPath();
+    ctx.moveTo(75, 50);
+    ctx.lineTo(100, 75);
+    ctx.lineTo(100, 25);
+    ctx.fill();
+  }
+}
+
+/*
+	@events 绘制圆形
+	CanvasRenderingContext2D.arcTo() 是 Canvas 2D API 根据控制点和半径绘制圆弧路径，使用当前的描点(前一个moveTo或lineTo等函数的止点)。根据当前描点与给定的控制点1连接的直线，和控制点1与控制点2连接的直线，作为使用指定半径的圆的切线，画出两条切线之间的弧线路径。
+	
+*/
+
+function draw_circal(){
+	// ctx.beginPath();
+	// ctx.arc(75, 75, 50, 0, 2 * Math.PI);
+	// ctx.fill();
+	ctx.beginPath();
+	ctx.moveTo(10, 10);
+	ctx.arcTo(10,10,50,50,20);
+	ctx.stroke();
+	// ctx.fill();
+	
+}
+
+// draw_circal()
+/*
+
+	绘制心形
+
+*/
+function draw_heart() {
+  var canvas = document.getElementById('canvas');
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+
+     //三次贝塞尔曲线
+    ctx.beginPath();
+    ctx.moveTo(75, 40);
+    ctx.bezierCurveTo(75, 37, 70, 25, 50, 25);
+    ctx.bezierCurveTo(20, 25, 20, 62.5, 20, 62.5);
+    ctx.bezierCurveTo(20, 80, 40, 102, 75, 120);
+    // ctx.bezierCurveTo(110, 102, 130, 80, 130, 62.5);
+    // ctx.bezierCurveTo(130, 62.5, 130, 25, 100, 25);
+    // ctx.bezierCurveTo(85, 25, 75, 37, 75, 40);
+    ctx.stroke();
+  }
+}
+
+
+draw_heart()
+
+
+</script>
+</body>
+</html>

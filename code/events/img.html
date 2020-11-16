@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+
+
+
+<canvas id="canvas" width="100" height="100"></canvas>
+<script>
+	
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext('2d');
+    // var balls = [];
+    
+    ctx.fillRect(10, 10, 200, 200)
+
+    /*
+	转换为图片
+
+    */
+	// canvas.toBlob(function(blob) {
+	//   var newImg = document.createElement("img"),
+	//       url = URL.createObjectURL(blob);
+
+	//   newImg.onload = function() {
+	//     // no longer need to read the blob so it's revoked
+	//     URL.revokeObjectURL(url);
+	//   };
+
+	//   newImg.src = url;
+	//   document.body.appendChild(newImg);
+	// });
+
+
+	/*
+
+	下载本地图片
+	*/
+// canvas.toBlob(blobCallback('passThisString'), 'image/png', 
+//               '-moz-parse-options:format=bmp;bpp=32');
+
+function blobCallback(iconName) {
+  return function(b) {
+    var a = document.createElement("a");
+    a.textContent = "Download";
+    document.body.appendChild(a);
+    a.style.display = "block";
+    a.download = iconName + ".png";
+    a.href = window.URL.createObjectURL(b);
+  }
+}
+canvas.toBlob(blobCallback('passThisString'), 'image/png');
+</script>
+</body>
+</html>
